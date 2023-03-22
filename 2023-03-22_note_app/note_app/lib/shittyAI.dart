@@ -4,6 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
+class Database {
+  Future<void> _saveNotes(_notes) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('notes', _notes);
+  }
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,6 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class NotesPage extends StatefulWidget {
+
   NotesPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -28,6 +36,7 @@ class NotesPage extends StatefulWidget {
 
 class _NotesPageState extends State<NotesPage> {
   List<String> _notes = [];
+  Database db = new Database();
 
   TextEditingController _noteController = TextEditingController();
 
@@ -50,16 +59,20 @@ class _NotesPageState extends State<NotesPage> {
     });
   }
 
-  Future<void> _saveNotes() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('notes', _notes);
-  }
+
 
   void _addNote() {
     setState(() {
       _notes.add(_noteController.text);
       _noteController.clear();
-      _saveNotes();
+      db._saveNotes(_notes);
+    });
+  }
+
+  void _deleteNoteAtIndex(int index) {
+    setState(() {
+      _notes.removeAt(index);
+      db._saveNotes(_notes);
     });
   }
 
@@ -98,16 +111,9 @@ class _NotesPageState extends State<NotesPage> {
         print(_notes[index]);
         print(result);
         _notes[index] = result;
-        _saveNotes();
+        db._saveNotes(_notes);
       });
     }
-  }
-
-  void _deleteNoteAtIndex(int index) {
-    setState(() {
-      _notes.removeAt(index);
-      _saveNotes();
-    });
   }
 
   @override
