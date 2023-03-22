@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -112,53 +113,54 @@ class _NotesPageState extends State<NotesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: ListView.builder(
-          itemCount: _notes.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(_notes[index]),
-              onTap: () => _editNoteAtIndex(index),
-              onLongPress: () => _deleteNoteAtIndex(index),
-            );
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-        onPressed: () {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-        return AlertDialog(
-            title: Text('Add Note'),
-            content: TextField(
-              controller: _noteController,
-              autofocus: true,
-            ),
-            actions: <Widget>[
-        TextButton(
-        child: Text('CANCEL'),
-    onPressed: () {
-    Navigator.pop(context);
-    },
-    ),
-    TextButton(
-    child: Text('SAVE'),
-    onPressed: () {
-
-      _addNote();
-      Navigator.pop(context);
-    },
-    ),
-            ],
-        );
-          },
-      );
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView.builder(
+        itemCount: _notes.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(_notes[index]),
+            onTap: () => _editNoteAtIndex(index),
+            onLongPress: () => _deleteNoteAtIndex(index),
+          );
         },
-          tooltip: 'Add Note',
-          child: Icon(Icons.add),
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Add Note'),
+                content: TextField(
+                  controller: _noteController,
+                  autofocus: true,
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('CANCEL'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  TextButton(
+                    child: Text('SAVE'),
+                    onPressed: () {
+                      if (_noteController.text.isNotEmpty) {
+                        _addNote();
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        tooltip: 'Add Note',
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
