@@ -70,6 +70,9 @@ class _NotesPageState extends State<NotesPage> {
           title: Text('Edit Note'),
           content: TextField(
             controller: TextEditingController(text: _notes[index]),
+            onChanged: (text) {
+              _noteController.text = text;
+            },
             autofocus: true,
           ),
           actions: <Widget>[
@@ -91,6 +94,8 @@ class _NotesPageState extends State<NotesPage> {
     );
     if (result != null) {
       setState(() {
+        print(_notes[index]);
+        print(result);
         _notes[index] = result;
         _saveNotes();
       });
