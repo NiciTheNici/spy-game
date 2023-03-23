@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'note.dart';
 
 class FormController {
-  static const String _notesKey = 'notes';
+  final _notesKey = 'notes';
 
   Future<void> saveNotes(List<Note> notes) async {
     final prefs = await SharedPreferences.getInstance();
