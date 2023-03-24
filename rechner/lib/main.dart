@@ -105,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget counterButton(var buttonText) {
     return Expanded(
       child: OutlinedButton(
+        key: Key('Taste' + buttonText),
         onPressed: () => buttonPressed(buttonText),
         child: Text(buttonText,
             style: const TextStyle(
@@ -142,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   const EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
               child: Text(
                 output,
+                key: Key('Resultat'),
                 overflow: TextOverflow.clip,
                 maxLines: 1,
                 style: const TextStyle(
