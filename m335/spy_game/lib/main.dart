@@ -46,9 +46,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext buildContext) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-    );
+        body: Align(
+      alignment: Alignment.topCenter,
+      child: Row(children: <Widget>[
+        Expanded(
+          child: Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.only(top: 200),
+              child: Text(widget.title, style: const TextStyle(fontSize: 32))),
+        ),
+      ]),
+    ));
   }
 }
