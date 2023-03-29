@@ -44,18 +44,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  Widget build(BuildContext buildContext) {
+  Widget build(BuildContext context) {
     return Scaffold(
         body: Align(
       alignment: Alignment.topCenter,
-      child: Row(children: <Widget>[
-        Expanded(
-          child: Container(
+      child: Column(
+        children: [
+          Container(
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.only(top: 200),
               child: Text(widget.title, style: const TextStyle(fontSize: 32))),
-        ),
-      ]),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              height: 100,
+              color: Theme.of(context).colorScheme.primary,
+              thickness: 5,
+            ),
+          ),
+          Container(
+              alignment: Alignment.centerLeft,
+              child: const Text("Number of players")),
+        ],
+      ),
     ));
   }
 }
