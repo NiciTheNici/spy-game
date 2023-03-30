@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'game_settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +45,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  GameSettings gameSettings = GameSettings();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: const EdgeInsets.only(top: 200),
               child: Text(widget.title, style: const TextStyle(fontSize: 32))),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 50),
             child: Divider(
               height: 100,
               color: Theme.of(context).colorScheme.primary,
@@ -65,64 +67,21 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               Expanded(
-                child: _adjustableSettingsGrid(
-                    FontAwesomeIcons.users, "Number of players"),
+                child: gameSettings.adjustableSettingsGrid(
+                    context, FontAwesomeIcons.users, "Number of players"),
               ),
             ],
           ),
           Row(
             children: [
               Expanded(
-                child: _adjustableSettingsGrid(
-                    FontAwesomeIcons.userSecret, "Number of spies"),
+                child: gameSettings.adjustableSettingsGrid(
+                    context, FontAwesomeIcons.userSecret, "Number of spies"),
               ),
             ],
           )
         ],
       ),
     ));
-  }
-
-  Widget _adjustableSettingsGrid(icon, name) {
-    const rowPadding = EdgeInsets.symmetric(
-      vertical: 16,
-    );
-    const borderMargin = EdgeInsets.symmetric(horizontal: 15);
-
-    return Container(
-      padding: rowPadding,
-      child: Row(
-        children: [
-          Container(
-            margin: borderMargin,
-            alignment: Alignment.center,
-            width: 20,
-            child: FaIcon(
-              icon,
-              size: 18,
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(name),
-          ),
-          Expanded(
-            child: Container(
-              margin: borderMargin,
-              alignment: Alignment.centerRight,
-              child: Container(
-                width: 100,
-                child: TextField(
-                  decoration: InputDecoration.collapsed(hintText: "number"),
-                  textAlign: TextAlign.right,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
   }
 }
