@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _adjustableSettingsGrid(icon, name) {
     const rowPadding = EdgeInsets.symmetric(
-      vertical: 5,
+      vertical: 16,
     );
     const borderMargin = EdgeInsets.symmetric(horizontal: 15);
 
@@ -110,7 +110,15 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
               margin: borderMargin,
               alignment: Alignment.centerRight,
-              child: const Text("12"),
+              child: Container(
+                width: 100,
+                child: TextField(
+                  decoration: InputDecoration.collapsed(hintText: "number"),
+                  textAlign: TextAlign.right,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
             ),
           )
         ],
