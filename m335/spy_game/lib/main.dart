@@ -50,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
+        // TODO also fix back button that currently doesnt unfocus
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
         child: Align(
