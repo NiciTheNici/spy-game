@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameSettings {
-  final int numberOfPlayers;
-  final int numberOfSpies;
+  int currentNumberOfPlayers;
+  int currentNumberOfSpies;
+  int currentTimeLimit;
 
-  GameSettings({this.numberOfPlayers = 4, this.numberOfSpies = 1});
+  GameSettings(
+      {this.currentNumberOfPlayers = 4,
+      this.currentNumberOfSpies = 1,
+      this.currentTimeLimit = 0});
 
   Widget settingsWidget(context) {
     return Column(
@@ -13,16 +17,30 @@ class GameSettings {
         Row(
           children: [
             Expanded(
-              child: singleSettingRow(
-                  context, FontAwesomeIcons.users, "Number of players"),
+              child: singleSettingRow(context, FontAwesomeIcons.users,
+                  "Number of players", currentNumberOfPlayers, (value) {
+                currentNumberOfPlayers = value;
+              }),
             ),
           ],
         ),
         Row(
           children: [
             Expanded(
-              child: singleSettingRow(
-                  context, FontAwesomeIcons.userSecret, "Number of spies"),
+              child: singleSettingRow(context, FontAwesomeIcons.userSecret,
+                  "Number of spies", currentNumberOfSpies, (value) {
+                currentNumberOfSpies = value;
+              }),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: singleSettingRow(context, FontAwesomeIcons.stopwatch,
+                  "Time limit", currentTimeLimit, (value) {
+                currentTimeLimit = value;
+              }),
             ),
           ],
         )
@@ -30,7 +48,8 @@ class GameSettings {
     );
   }
 
-  Widget singleSettingRow(context, icon, name) {
+  Widget singleSettingRow(
+      context, icon, name, currentValue, ValueChanged<int> onChanged) {
     const rowPadding = EdgeInsets.symmetric(
       vertical: 16,
     );
@@ -68,6 +87,11 @@ class GameSettings {
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w200),
+                  controller:
+                      TextEditingController(text: currentValue.toString()),
+                  onChanged: (value) {
+                    onChanged(int.tryParse(value) ?? currentValue);
+                  },
                 ),
               ),
             ),
