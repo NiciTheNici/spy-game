@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameSettings {
+  final int numberOfPlayers;
+  final int numberOfSpies;
+
+  GameSettings({this.numberOfPlayers = 4, this.numberOfSpies = 1});
+
   Widget settingsWidget(context) {
     return Column(
       children: [
