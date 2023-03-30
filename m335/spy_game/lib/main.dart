@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,11 +63,38 @@ class _MyHomePageState extends State<MyHomePage> {
               thickness: 5,
             ),
           ),
-          Container(
-              alignment: Alignment.centerLeft,
-              child: const Text("Number of players")),
+          _adjustableSettings(),
         ],
       ),
     ));
+  }
+
+  Widget _adjustableSettings() {
+    const iconMargin = EdgeInsets.symmetric(vertical: 5, horizontal: 15);
+
+    return Row(
+      children: [
+        Column(
+          children: [
+            Container(
+              margin: iconMargin,
+              alignment: Alignment.centerLeft,
+              child: const FaIcon(
+                FontAwesomeIcons.users,
+                size: 18,
+              ),
+            ),
+            Container(
+                margin: iconMargin,
+                alignment: Alignment.centerLeft,
+                child: const FaIcon(FontAwesomeIcons.userSecret, size: 18))
+          ],
+        ),
+        Container(
+          alignment: Alignment.centerLeft,
+          child: const Text("Number of players"),
+        ),
+      ],
+    );
   }
 }
