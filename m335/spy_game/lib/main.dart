@@ -58,13 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Container(
                   alignment: Alignment.topCenter,
-                  margin: const EdgeInsets.only(top: 200),
+                  margin: const EdgeInsets.only(top: 100),
                   child:
                       Text(widget.title, style: const TextStyle(fontSize: 32))),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 child: Divider(
-                  height: 100,
                   color: Theme.of(context).colorScheme.primary,
                   thickness: 5,
                 ),

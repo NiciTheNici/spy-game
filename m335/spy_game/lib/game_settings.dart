@@ -54,49 +54,57 @@ class GameSettings {
       vertical: 16,
     );
     const borderMargin = EdgeInsets.symmetric(horizontal: 15);
+    final textFieldFocusNode = FocusNode();
 
-    return Container(
-      padding: rowPadding,
-      child: Row(
-        children: [
-          Container(
-            margin: borderMargin,
-            alignment: Alignment.center,
-            width: 20,
-            child: FaIcon(
-              icon,
-              size: 18,
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(name),
-          ),
-          Expanded(
-            child: Container(
+    return GestureDetector(
+      onTap: () {
+        textFieldFocusNode.requestFocus();
+      },
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        padding: rowPadding,
+        child: Row(
+          children: [
+            Container(
               margin: borderMargin,
-              alignment: Alignment.centerRight,
-              // color: Colors.purple,
-              child: SizedBox(
-                width: 100,
-                child: TextField(
-                  decoration:
-                      const InputDecoration.collapsed(hintText: "number"),
-                  textAlign: TextAlign.right,
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w200),
-                  controller:
-                      TextEditingController(text: currentValue.toString()),
-                  onChanged: (value) {
-                    onChanged(int.tryParse(value) ?? currentValue);
-                  },
-                ),
+              alignment: Alignment.center,
+              width: 20,
+              child: FaIcon(
+                icon,
+                size: 18,
               ),
             ),
-          )
-        ],
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(name),
+            ),
+            Expanded(
+              child: Container(
+                margin: borderMargin,
+                alignment: Alignment.centerRight,
+                // color: Colors.purple,
+                child: SizedBox(
+                  width: 100,
+                  child: TextField(
+                    focusNode: textFieldFocusNode,
+                    decoration:
+                        const InputDecoration.collapsed(hintText: "number"),
+                    textAlign: TextAlign.right,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w200),
+                    controller:
+                        TextEditingController(text: currentValue.toString()),
+                    onChanged: (value) {
+                      onChanged(int.tryParse(value) ?? currentValue);
+                    },
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
