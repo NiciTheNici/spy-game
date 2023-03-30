@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
       return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Spy Game',
         theme: ThemeData(
           colorScheme: lightColorScheme ?? _defaultLightColorScheme,
           useMaterial3: true,
@@ -48,7 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Align(
-      alignment: Alignment.topCenter,
       child: Column(
         children: [
           Container(
@@ -63,38 +62,49 @@ class _MyHomePageState extends State<MyHomePage> {
               thickness: 5,
             ),
           ),
-          _adjustableSettings(),
+          Row(
+            children: [
+              Expanded(
+                child: _adjustableSettingsGrid(),
+              ),
+            ],
+          )
         ],
       ),
     ));
   }
 
-  Widget _adjustableSettings() {
-    const iconMargin = EdgeInsets.symmetric(vertical: 5, horizontal: 15);
+  Widget _adjustableSettingsGrid() {
+    const rowPadding = EdgeInsets.symmetric(
+      vertical: 5,
+    );
+    const borderMargin = EdgeInsets.symmetric(horizontal: 15);
 
-    return Row(
-      children: [
-        Column(
-          children: [
-            Container(
-              margin: iconMargin,
-              alignment: Alignment.centerLeft,
-              child: const FaIcon(
-                FontAwesomeIcons.users,
-                size: 18,
-              ),
+    return Container(
+      padding: rowPadding,
+      child: Row(
+        children: [
+          Container(
+            margin: borderMargin,
+            alignment: Alignment.centerLeft,
+            child: const FaIcon(
+              FontAwesomeIcons.users,
+              size: 18,
             ),
-            Container(
-                margin: iconMargin,
-                alignment: Alignment.centerLeft,
-                child: const FaIcon(FontAwesomeIcons.userSecret, size: 18))
-          ],
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: const Text("Number of players"),
-        ),
-      ],
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("Number of players"),
+          ),
+          Expanded(
+            child: Container(
+              margin: borderMargin,
+              alignment: Alignment.centerRight,
+              child: Container(child: const Text("12")),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
