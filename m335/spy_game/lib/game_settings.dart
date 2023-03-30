@@ -2,7 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameSettings {
-  Widget adjustableSettingsGrid(context, icon, name) {
+  Widget settingsWidget(context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: singleSettingRow(
+                  context, FontAwesomeIcons.users, "Number of players"),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: singleSettingRow(
+                  context, FontAwesomeIcons.userSecret, "Number of spies"),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget singleSettingRow(context, icon, name) {
     const rowPadding = EdgeInsets.symmetric(
       vertical: 16,
     );

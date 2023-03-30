@@ -64,22 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               thickness: 5,
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: gameSettings.adjustableSettingsGrid(
-                    context, FontAwesomeIcons.users, "Number of players"),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: gameSettings.adjustableSettingsGrid(
-                    context, FontAwesomeIcons.userSecret, "Number of spies"),
-              ),
-            ],
-          )
+          gameSettings.settingsWidget(context),
         ],
       ),
     ));
