@@ -65,7 +65,16 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               Expanded(
-                child: _adjustableSettingsGrid(),
+                child: _adjustableSettingsGrid(
+                    FontAwesomeIcons.users, "Number of players"),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: _adjustableSettingsGrid(
+                    FontAwesomeIcons.userSecret, "Number of spies"),
               ),
             ],
           )
@@ -74,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  Widget _adjustableSettingsGrid() {
+  Widget _adjustableSettingsGrid(icon, name) {
     const rowPadding = EdgeInsets.symmetric(
       vertical: 5,
     );
@@ -86,21 +95,22 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Container(
             margin: borderMargin,
-            alignment: Alignment.centerLeft,
-            child: const FaIcon(
-              FontAwesomeIcons.users,
+            alignment: Alignment.center,
+            width: 20,
+            child: FaIcon(
+              icon,
               size: 18,
             ),
           ),
           Container(
             alignment: Alignment.centerLeft,
-            child: const Text("Number of players"),
+            child: Text(name),
           ),
           Expanded(
             child: Container(
               margin: borderMargin,
               alignment: Alignment.centerRight,
-              child: Container(child: const Text("12")),
+              child: const Text("12"),
             ),
           )
         ],
