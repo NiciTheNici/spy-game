@@ -49,24 +49,32 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Align(
-      child: Column(
-        children: [
-          Container(
-              alignment: Alignment.topCenter,
-              margin: const EdgeInsets.only(top: 200),
-              child: Text(widget.title, style: const TextStyle(fontSize: 32))),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 50),
-            child: Divider(
-              height: 100,
-              color: Theme.of(context).colorScheme.primary,
-              thickness: 5,
+      body: Align(
+        child: Column(
+          children: [
+            Container(
+                alignment: Alignment.topCenter,
+                margin: const EdgeInsets.only(top: 200),
+                child:
+                    Text(widget.title, style: const TextStyle(fontSize: 32))),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 50),
+              child: Divider(
+                height: 100,
+                color: Theme.of(context).colorScheme.primary,
+                thickness: 5,
+              ),
             ),
-          ),
-          gameSettings.settingsWidget(context),
-        ],
+            gameSettings.settingsWidget(context),
+          ],
+        ),
       ),
-    ));
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: const Icon(Icons.play_arrow_rounded),
+      ),
+    );
   }
 }
