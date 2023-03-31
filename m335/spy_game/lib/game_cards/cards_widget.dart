@@ -38,7 +38,7 @@ class CardsWidget {
                     children: [
                       Expanded(
                         child: FittedBox(
-                          fit: BoxFit.fill,
+                          fit: BoxFit.contain,
                           child: Container(
                             margin: const EdgeInsets.all(10),
                             child: FaIcon(
