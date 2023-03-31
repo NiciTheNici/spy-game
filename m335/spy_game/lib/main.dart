@@ -58,14 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
   late CardsWidget cardWidgetBuilder;
   late Widgets activeWidget;
   late IconData floatButtonIcon;
-  var cardWidget;
+  late Widget currentCardWidget;
+  List<Widget> cards = [];
 
   Widget getActiveWidget() {
     switch (activeWidget) {
       case Widgets.settings:
         return settingsWidget;
       case Widgets.cardSelect:
-        return cardWidget;
+        return currentCardWidget;
     }
   }
 
@@ -82,16 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
     cardWidgetBuilder = CardsWidget(context: context);
     settingsWidget = GameSettingsWidget(controller: controller)
         .settingsScaffold(context, widget);
-    cardWidget = cardWidgetBuilder.question(cardClicked);
+    currentCardWidget = cardWidgetBuilder.question(cardClicked);
     return Scaffold(
       body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
             if (activeWidget == Widgets.settings) {
+              generateCardWidgets();
               activeWidget = Widgets.cardSelect;
               floatButtonIcon = Icons.loop;
             } else {
+              clearCardWidgets();
               activeWidget = Widgets.settings;
               floatButtonIcon = Icons.play_arrow_rounded;
             }
@@ -104,6 +107,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(floatButtonIcon),
       ),
     );
+  }
+
+  clearCardWidgets() {
+    cards = [];
+  }
+
+  generateCardWidgets() {
+    List.generate(controller.currentNumberOfPlayers, (i) {
+      cards.add(cardWidgetBuilder.earth(cardClicked));
+    });
+    List.generate(controller.currentNumberOfSpies, (i) {
+      cards.add(cardWidgetBuilder.userSecret(cardClicked));
+    });
+    print("there are " + cards.length.toString() + " cards");
+    // cards.forEach(
+    // (e) => print(e),
+    // );
   }
 
   cardClicked() {
