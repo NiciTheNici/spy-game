@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
 
@@ -49,7 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     GameSettingsController controller = GameSettingsController();
-    GameSettingsWidget settings = GameSettingsWidget(controller: controller);
-    return settings.settingsScaffold(context, widget);
+    Widget settingsWidget = GameSettingsWidget(controller: controller)
+        .settingsScaffold(context, widget);
+    Widget cardWidget = CardsWidget().cardWidget();
+    Widget activeWidget = settingsWidget;
+    return Scaffold(
+      body: activeWidget,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            activeWidget = cardWidget;
+          });
+          print(activeWidget);
+
+          // print(gameSettings.currentNumberOfPlayers);
+          // print(gameSettings.currentNumberOfSpies);
+          // print(gameSettings.currentTimeLimit);
+        },
+        child: const Icon(Icons.play_arrow_rounded),
+      ),
+    );
   }
 }
