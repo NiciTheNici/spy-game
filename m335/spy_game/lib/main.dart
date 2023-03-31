@@ -105,10 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
               backToSettings();
             }
           });
-
-          // print(gameSettings.currentNumberOfPlayers);
-          // print(gameSettings.currentNumberOfSpies);
-          // print(gameSettings.currentTimeLimit);
         },
         child: Icon(floatButtonIcon),
       ),
@@ -137,14 +133,11 @@ class _MyHomePageState extends State<MyHomePage> {
     List.generate(controller.currentNumberOfSpies, (i) {
       cards.add(CardType.spy);
     });
-    // print("there are " + cards.length.toString() + " cards");
     cards.shuffle();
     activeCard = CardType.unknown;
   }
 
   nextCard() {
-    print(activeCardIndex);
-    print(cards.length);
     activeCard = cards[activeCardIndex];
     activeCardIndex++;
   }
@@ -159,13 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
   onCardClick() {
     setState(() {
       if (activeCard != CardType.unknown) {
-        print("spy or world card clicked");
         if (activeCardIndex == cards.length) {
           backToSettings();
         }
         activeCard = CardType.unknown;
       } else {
-        print("unknown card clicked");
         nextCard();
       }
     });
