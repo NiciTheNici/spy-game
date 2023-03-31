@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CardsWidget {
-  Widget cardWidget() {
+  BuildContext context;
+  CardsWidget({required this.context});
+
+  Widget cardWidget(roleIcon) {
     return Center(
       child: Card(
         clipBehavior: Clip.hardEdge,
-        margin: EdgeInsets.symmetric(horizontal: 30),
+        margin: const EdgeInsets.symmetric(horizontal: 30),
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
@@ -15,7 +18,7 @@ class CardsWidget {
           child: Row(
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 400,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -24,10 +27,10 @@ class CardsWidget {
                         child: FittedBox(
                           fit: BoxFit.fill,
                           child: Container(
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: FaIcon(
-                              FontAwesomeIcons.userSecret,
-                              color: Colors.green,
+                              roleIcon,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),

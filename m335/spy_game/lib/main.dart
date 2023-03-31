@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
@@ -79,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     settingsWidget = GameSettingsWidget(controller: controller)
         .settingsScaffold(context, widget);
-    cardWidget = CardsWidget().cardWidget();
+    cardWidget =
+        CardsWidget(context: context).cardWidget(FontAwesomeIcons.userSecret);
     return Scaffold(
       body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
