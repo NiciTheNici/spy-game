@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spy_game/Country.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
@@ -83,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     controller = GameSettingsController();
+    _loadControllerData();
     activeWidget = Widgets.settings;
     floatButtonIcon = Icons.play_arrow_rounded;
     countryData.load().then(
@@ -103,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           setState(() {
             if (activeWidget == Widgets.settings) {
+              _saveControllerData();
               randomCountry = countryData.getRandomCountry().name;
               generateCardWidgets();
               activeWidget = Widgets.cardSelect;
@@ -166,5 +169,19 @@ class _MyHomePageState extends State<MyHomePage> {
         nextCard();
       }
     });
+  }
+
+  _saveControllerData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('numPlayers', controller.currentNumberOfPlayers);
+    prefs.setInt('numSpies', controller.currentNumberOfSpies);
+    // ...
+  }
+
+  _loadControllerData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    controller.currentNumberOfPlayers = prefs.getInt('numPlayers') ?? 5;
+    controller.currentNumberOfSpies = prefs.getInt('numSpies') ?? 1;
+    // ...
   }
 }
