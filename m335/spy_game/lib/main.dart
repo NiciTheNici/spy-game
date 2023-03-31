@@ -36,6 +36,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
+enum Widgets {
+  settings,
+  cardSelect,
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   // activeView;
@@ -47,19 +52,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late GameSettingsController controller;
+  late Widget settingsWidget;
+  late Widget cardWidget;
+  late Widgets activeWidget;
+
+  Widget getActiveWidget() {
+    switch (activeWidget) {
+      case Widgets.settings:
+        return settingsWidget;
+      case Widgets.cardSelect:
+        return cardWidget;
+    }
+  }
+
+  @override
+  void initState() {
+    controller = GameSettingsController();
+    activeWidget = Widgets.settings;
+  }
+
   @override
   Widget build(BuildContext context) {
-    GameSettingsController controller = GameSettingsController();
-    Widget settingsWidget = GameSettingsWidget(controller: controller)
+    settingsWidget = GameSettingsWidget(controller: controller)
         .settingsScaffold(context, widget);
-    Widget cardWidget = CardsWidget().cardWidget();
-    Widget activeWidget = settingsWidget;
+    cardWidget = CardsWidget().cardWidget();
     return Scaffold(
-      body: activeWidget,
+      body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            activeWidget = cardWidget;
+            activeWidget = Widgets.cardSelect;
           });
           print(activeWidget);
 
