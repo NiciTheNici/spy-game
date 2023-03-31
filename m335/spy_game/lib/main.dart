@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late Widget settingsWidget;
   late Widget cardWidget;
   late Widgets activeWidget;
+  late IconData floatButtonIcon;
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -68,8 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    super.initState();
     controller = GameSettingsController();
     activeWidget = Widgets.settings;
+    floatButtonIcon = Icons.play_arrow_rounded;
   }
 
   @override
@@ -82,15 +85,20 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            activeWidget = Widgets.cardSelect;
+            if (activeWidget == Widgets.settings) {
+              activeWidget = Widgets.cardSelect;
+              floatButtonIcon = Icons.loop;
+            } else {
+              activeWidget = Widgets.settings;
+              floatButtonIcon = Icons.play_arrow_rounded;
+            }
           });
-          print(activeWidget);
 
           // print(gameSettings.currentNumberOfPlayers);
           // print(gameSettings.currentNumberOfSpies);
           // print(gameSettings.currentTimeLimit);
         },
-        child: const Icon(Icons.play_arrow_rounded),
+        child: Icon(floatButtonIcon),
       ),
     );
   }
