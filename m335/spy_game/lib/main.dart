@@ -139,18 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     // print("there are " + cards.length.toString() + " cards");
     cards.shuffle();
-    activeCard = cards[0];
+    activeCard = CardType.unknown;
   }
 
   nextCard() {
     print(activeCardIndex);
     print(cards.length);
-    if (activeCardIndex < cards.length) {
-      activeCard = cards[activeCardIndex];
-      activeCardIndex++;
-    } else {
-      backToSettings();
-    }
+    activeCard = cards[activeCardIndex];
+    activeCardIndex++;
   }
 
   backToSettings() {
@@ -161,11 +157,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   onCardClick() {
-    print("card clicked");
     setState(() {
       if (activeCard != CardType.unknown) {
+        print("spy or world card clicked");
+        if (activeCardIndex == cards.length) {
+          backToSettings();
+        }
         activeCard = CardType.unknown;
       } else {
+        print("unknown card clicked");
         nextCard();
       }
     });
