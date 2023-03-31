@@ -11,7 +11,7 @@ class CardsWidget {
         clipBehavior: Clip.hardEdge,
         margin: const EdgeInsets.symmetric(horizontal: 30),
         child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
+          splashColor: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
           onTap: () {
             debugPrint('Card tapped.');
           },
