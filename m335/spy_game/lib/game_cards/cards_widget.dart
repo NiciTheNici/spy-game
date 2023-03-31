@@ -4,14 +4,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CardsWidget {
   BuildContext context;
   final VoidCallback onCardClick;
-  CardsWidget({required this.context, required this.onCardClick});
+  final String country;
+  CardsWidget(
+      {required this.context,
+      required this.onCardClick,
+      required this.country});
 
   Widget userSecret() {
     return cardWidget(FontAwesomeIcons.userSecret, onCardClick, "Youre sus");
   }
 
   Widget earth() {
-    return cardWidget(FontAwesomeIcons.earthAmericas, onCardClick, "panama");
+    return cardWidget(FontAwesomeIcons.earthAmericas, onCardClick, country);
   }
 
   Widget question() {

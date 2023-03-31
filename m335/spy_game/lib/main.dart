@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:spy_game/Country.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
@@ -66,6 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late CardType activeCard;
   List<CardType> cards = [];
   int activeCardIndex = 0;
+  final CountryData countryData = CountryData();
+  String randomCountry = "";
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -82,11 +85,15 @@ class _MyHomePageState extends State<MyHomePage> {
     controller = GameSettingsController();
     activeWidget = Widgets.settings;
     floatButtonIcon = Icons.play_arrow_rounded;
+    countryData.load().then(
+          (e) {},
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    cardWidgetBuilder = CardsWidget(context: context, onCardClick: onCardClick);
+    cardWidgetBuilder = CardsWidget(
+        context: context, onCardClick: onCardClick, country: randomCountry);
     settingsWidget = GameSettingsWidget(controller: controller)
         .settingsScaffold(context, widget);
     currentCardWidget = cardWidgetBuilder.question();
@@ -96,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           setState(() {
             if (activeWidget == Widgets.settings) {
+              randomCountry = countryData.getRandomCountry().name;
               generateCardWidgets();
               activeWidget = Widgets.cardSelect;
               floatButtonIcon = Icons.loop;
