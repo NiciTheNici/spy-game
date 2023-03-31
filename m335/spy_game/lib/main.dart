@@ -42,6 +42,12 @@ enum Widgets {
   cardSelect,
 }
 
+enum CardType {
+  normal,
+  spy,
+  unknown,
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   // activeView;
@@ -59,14 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
   late Widgets activeWidget;
   late IconData floatButtonIcon;
   late Widget currentCardWidget;
-  List<Widget> cards = [];
+  late CardType activeCard;
+  List<CardType> cards = [];
 
   Widget getActiveWidget() {
     switch (activeWidget) {
       case Widgets.settings:
         return settingsWidget;
       case Widgets.cardSelect:
-        return currentCardWidget;
+        return getCurrentCard();
     }
   }
 
@@ -80,10 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    cardWidgetBuilder = CardsWidget(context: context);
+    cardWidgetBuilder = CardsWidget(context: context, onCardClick: onCardClick);
     settingsWidget = GameSettingsWidget(controller: controller)
         .settingsScaffold(context, widget);
-    currentCardWidget = cardWidgetBuilder.question(cardClicked);
+    currentCardWidget = cardWidgetBuilder.question();
     return Scaffold(
       body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
@@ -109,26 +116,37 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  getCurrentCard() {
+    switch (activeCard) {
+      case CardType.normal:
+        return cardWidgetBuilder.earth();
+      case CardType.spy:
+        return cardWidgetBuilder.userSecret();
+      case CardType.unknown:
+        return cardWidgetBuilder.question();
+    }
+  }
+
   clearCardWidgets() {
     cards = [];
   }
 
   generateCardWidgets() {
     List.generate(controller.currentNumberOfPlayers, (i) {
-      cards.add(cardWidgetBuilder.earth(cardClicked));
+      cards.add(CardType.normal);
     });
     List.generate(controller.currentNumberOfSpies, (i) {
-      cards.add(cardWidgetBuilder.userSecret(cardClicked));
+      cards.add(CardType.spy);
     });
-    print("there are " + cards.length.toString() + " cards");
-    // cards.forEach(
-    // (e) => print(e),
-    // );
+    // print("there are " + cards.length.toString() + " cards");
+    cards.shuffle();
+    activeCard = cards[0];
   }
 
-  cardClicked() {
+  onCardClick() {
     setState(() {
-      activeWidget = Widgets.settings;
+      currentCardWidget = cardWidgetBuilder.userSecret();
+      print(currentCardWidget);
     });
   }
 }

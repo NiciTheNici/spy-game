@@ -3,18 +3,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CardsWidget {
   BuildContext context;
-  CardsWidget({required this.context});
+  final VoidCallback onCardClick;
+  CardsWidget({required this.context, required this.onCardClick});
 
-  Widget userSecret(Function cardTapped) {
-    return cardWidget(FontAwesomeIcons.userSecret, cardTapped);
+  Widget userSecret() {
+    return cardWidget(FontAwesomeIcons.userSecret, onCardClick);
   }
 
-  Widget earth(Function cardTapped) {
-    return cardWidget(FontAwesomeIcons.earthAmericas, cardTapped);
+  Widget earth() {
+    return cardWidget(FontAwesomeIcons.earthAmericas, onCardClick);
   }
 
-  Widget question(Function cardTapped) {
-    return cardWidget(FontAwesomeIcons.question, cardTapped);
+  Widget question() {
+    return cardWidget(FontAwesomeIcons.question, onCardClick);
   }
 
   Widget cardWidget(roleIcon, cardTapped) {
