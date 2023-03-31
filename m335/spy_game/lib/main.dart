@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late Widget currentCardWidget;
   late CardType activeCard;
   List<CardType> cards = [];
+  int activeCardIndex = 0;
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -101,9 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
               activeWidget = Widgets.cardSelect;
               floatButtonIcon = Icons.loop;
             } else {
-              clearCardWidgets();
-              activeWidget = Widgets.settings;
-              floatButtonIcon = Icons.play_arrow_rounded;
+              backToSettings();
             }
           });
 
@@ -143,10 +142,32 @@ class _MyHomePageState extends State<MyHomePage> {
     activeCard = cards[0];
   }
 
+  nextCard() {
+    print(activeCardIndex);
+    print(cards.length);
+    if (activeCardIndex < cards.length) {
+      activeCard = cards[activeCardIndex];
+      activeCardIndex++;
+    } else {
+      backToSettings();
+    }
+  }
+
+  backToSettings() {
+    clearCardWidgets();
+    activeWidget = Widgets.settings;
+    floatButtonIcon = Icons.play_arrow_rounded;
+    activeCardIndex = 0;
+  }
+
   onCardClick() {
+    print("card clicked");
     setState(() {
-      currentCardWidget = cardWidgetBuilder.userSecret();
-      print(currentCardWidget);
+      if (activeCard != CardType.unknown) {
+        activeCard = CardType.unknown;
+      } else {
+        nextCard();
+      }
     });
   }
 }
