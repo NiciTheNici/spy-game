@@ -5,7 +5,19 @@ class CardsWidget {
   BuildContext context;
   CardsWidget({required this.context});
 
-  Widget cardWidget(roleIcon) {
+  Widget userSecret(Function cardTapped) {
+    return cardWidget(FontAwesomeIcons.userSecret, cardTapped);
+  }
+
+  Widget earth(Function cardTapped) {
+    return cardWidget(FontAwesomeIcons.earthAmericas, cardTapped);
+  }
+
+  Widget question(Function cardTapped) {
+    return cardWidget(FontAwesomeIcons.question, cardTapped);
+  }
+
+  Widget cardWidget(roleIcon, cardTapped) {
     return Center(
       child: Card(
         clipBehavior: Clip.hardEdge,
@@ -13,7 +25,7 @@ class CardsWidget {
         child: InkWell(
           splashColor: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
           onTap: () {
-            debugPrint('Card tapped.');
+            cardTapped();
           },
           child: Row(
             children: [

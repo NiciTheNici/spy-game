@@ -55,9 +55,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late GameSettingsController controller;
   late Widget settingsWidget;
-  late Widget cardWidget;
+  late CardsWidget cardWidgetBuilder;
   late Widgets activeWidget;
   late IconData floatButtonIcon;
+  var cardWidget;
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -78,10 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    cardWidgetBuilder = CardsWidget(context: context);
     settingsWidget = GameSettingsWidget(controller: controller)
         .settingsScaffold(context, widget);
-    cardWidget =
-        CardsWidget(context: context).cardWidget(FontAwesomeIcons.userSecret);
+    cardWidget = cardWidgetBuilder.question(cardClicked);
     return Scaffold(
       body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
@@ -103,5 +104,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(floatButtonIcon),
       ),
     );
+  }
+
+  cardClicked() {
+    setState(() {
+      activeWidget = Widgets.settings;
+    });
   }
 }
