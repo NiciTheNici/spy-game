@@ -7,18 +7,18 @@ class CardsWidget {
   CardsWidget({required this.context, required this.onCardClick});
 
   Widget userSecret() {
-    return cardWidget(FontAwesomeIcons.userSecret, onCardClick);
+    return cardWidget(FontAwesomeIcons.userSecret, onCardClick, "Youre sus");
   }
 
   Widget earth() {
-    return cardWidget(FontAwesomeIcons.earthAmericas, onCardClick);
+    return cardWidget(FontAwesomeIcons.earthAmericas, onCardClick, "panama");
   }
 
   Widget question() {
-    return cardWidget(FontAwesomeIcons.question, onCardClick);
+    return cardWidget(FontAwesomeIcons.question, onCardClick, "Tap to turn");
   }
 
-  Widget cardWidget(roleIcon, cardTapped) {
+  Widget cardWidget(roleIcon, cardTapped, cardText) {
     return Center(
       child: Card(
         clipBehavior: Clip.hardEdge,
@@ -40,7 +40,7 @@ class CardsWidget {
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: Container(
-                            margin: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(5),
                             child: FaIcon(
                               roleIcon,
                               color: Theme.of(context).colorScheme.primary,
@@ -48,6 +48,13 @@ class CardsWidget {
                           ),
                         ),
                       ),
+                      Container(
+                          padding: EdgeInsets.only(bottom: 50),
+                          child: Text(
+                            cardText,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 20),
+                          )),
                     ],
                   ),
                 ),
