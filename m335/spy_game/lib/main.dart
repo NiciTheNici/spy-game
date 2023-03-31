@@ -1,6 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
@@ -50,7 +49,6 @@ enum CardType {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-  // activeView;
 
   final String title;
 
