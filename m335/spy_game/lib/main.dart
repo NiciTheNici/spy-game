@@ -1,7 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'game_settings.dart';
+import 'package:spy_game/game_settings/game_settings_controller.dart';
+import 'package:spy_game/game_settings/game_settings_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
+  // activeView;
 
   final String title;
 
@@ -45,43 +46,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  GameSettings gameSettings = GameSettings();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        // TODO also fix back button that currently doesnt unfocus
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        behavior: HitTestBehavior.translucent,
-        child: Align(
-          child: Column(
-            children: [
-              Container(
-                  alignment: Alignment.topCenter,
-                  margin: const EdgeInsets.only(top: 100),
-                  child:
-                      Text(widget.title, style: const TextStyle(fontSize: 32))),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                child: Divider(
-                  color: Theme.of(context).colorScheme.primary,
-                  thickness: 5,
-                ),
-              ),
-              gameSettings.settingsWidget(context),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // print(gameSettings.currentNumberOfPlayers);
-          // print(gameSettings.currentNumberOfSpies);
-          // print(gameSettings.currentTimeLimit);
-        },
-        child: const Icon(Icons.play_arrow_rounded),
-      ),
-    );
+    GameSettingsController controller = GameSettingsController();
+    GameSettingsWidget settings = GameSettingsWidget(controller: controller);
+    return settings.settingsScaffold(context, widget);
   }
 }

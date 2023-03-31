@@ -1,15 +1,50 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class GameSettings {
-  int currentNumberOfPlayers;
-  int currentNumberOfSpies;
-  int currentTimeLimit;
+import 'game_settings_controller.dart';
 
-  GameSettings(
-      {this.currentNumberOfPlayers = 4,
-      this.currentNumberOfSpies = 1,
-      this.currentTimeLimit = 0});
+class GameSettingsWidget {
+  GameSettingsController controller;
+  GameSettingsWidget({required this.controller});
+
+  Scaffold settingsScaffold(BuildContext context, widget) {
+    return Scaffold(
+      body: GestureDetector(
+        // TODO also fix back button that currently doesnt unfocus
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: Align(
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topCenter,
+                  margin: const EdgeInsets.only(top: 100),
+                  child:
+                      Text(widget.title, style: const TextStyle(fontSize: 32))),
+              Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                child: Divider(
+                  color: Theme.of(context).colorScheme.primary,
+                  thickness: 5,
+                ),
+              ),
+              settingsWidget(context),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // print(gameSettings.currentNumberOfPlayers);
+          // print(gameSettings.currentNumberOfSpies);
+          // print(gameSettings.currentTimeLimit);
+        },
+        child: const Icon(Icons.play_arrow_rounded),
+      ),
+    );
+  }
 
   Widget settingsWidget(context) {
     return Column(
@@ -17,9 +52,12 @@ class GameSettings {
         Row(
           children: [
             Expanded(
-              child: singleSettingRow(context, FontAwesomeIcons.users,
-                  "Number of players", currentNumberOfPlayers, (value) {
-                currentNumberOfPlayers = value;
+              child: singleSettingRow(
+                  context,
+                  FontAwesomeIcons.users,
+                  "Number of players",
+                  controller.currentNumberOfPlayers, (value) {
+                controller.currentNumberOfPlayers = value;
               }),
             ),
           ],
@@ -28,8 +66,8 @@ class GameSettings {
           children: [
             Expanded(
               child: singleSettingRow(context, FontAwesomeIcons.userSecret,
-                  "Number of spies", currentNumberOfSpies, (value) {
-                currentNumberOfSpies = value;
+                  "Number of spies", controller.currentNumberOfSpies, (value) {
+                controller.currentNumberOfSpies = value;
               }),
             ),
           ],
@@ -38,8 +76,8 @@ class GameSettings {
           children: [
             Expanded(
               child: singleSettingRow(context, FontAwesomeIcons.stopwatch,
-                  "Time limit", currentTimeLimit, (value) {
-                currentTimeLimit = value;
+                  "Time limit", controller.currentTimeLimit, (value) {
+                controller.currentTimeLimit = value;
               }),
             ),
           ],
