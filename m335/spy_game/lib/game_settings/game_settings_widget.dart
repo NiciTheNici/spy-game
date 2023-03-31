@@ -64,7 +64,7 @@ class GameSettingsWidget {
           children: [
             Expanded(
               child: singleSettingRow(context, FontAwesomeIcons.stopwatch,
-                  "Time limit", controller.currentTimeLimit, (value) {
+                  "Time limit (TODO)", controller.currentTimeLimit, (value) {
                 controller.currentTimeLimit = value;
               }),
             ),
