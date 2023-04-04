@@ -105,11 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           setState(() {
             if (activeWidget == Widgets.settings) {
-              _saveControllerData();
-              randomCountry = countryData.getRandomCountry().name;
-              generateCardWidgets();
-              activeWidget = Widgets.cardSelect;
-              floatButtonIcon = Icons.loop;
+              startNewGame();
             } else {
               backToSettings();
             }
@@ -118,6 +114,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(floatButtonIcon),
       ),
     );
+  }
+
+  startNewGame() {
+    _saveControllerData();
+    randomCountry = countryData.getRandomCountry().name;
+    generateCardWidgets();
+    activeWidget = Widgets.cardSelect;
+    floatButtonIcon = Icons.loop;
   }
 
   getCurrentCard() {
