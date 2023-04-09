@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late CardsWidget cardWidgetBuilder; // instance of CardsWidget
   late Widget currentCardWidget; // currrent card view
 
-  late IconData floatButtonIcon;
+  late IconData floatButtonIcon = Icons.play_arrow_rounded;
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -80,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
     settings = GameSettingsController();
     _loadControllerData();
     activeWidget = Widgets.settings;
-    floatButtonIcon = Icons.play_arrow_rounded;
   }
 
   @override
