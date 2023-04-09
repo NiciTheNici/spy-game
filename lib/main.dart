@@ -61,9 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   GameInstance gameInstance = GameInstance();
   late CardsWidget cardWidgetBuilder; // instance of CardsWidget
-  late Widget currentCardWidget; // currrent card view
 
-  late IconData floatButtonIcon = Icons.play_arrow_rounded;
+  IconData floatButtonIcon = Icons.play_arrow_rounded;
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -90,7 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
         country: gameInstance.randomCountry);
     settingsWidget = GameSettingsWidget(controller: settings)
         .settingsScaffold(context, widget);
-    currentCardWidget = cardWidgetBuilder.question();
     return Scaffold(
       body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
