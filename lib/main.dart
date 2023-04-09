@@ -58,16 +58,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late GameSettingsController controller;
-  late Widgets activeWidget;
+  late Widgets activeWidget; // enum of active widget
 
-  late Widget settingsWidget;
-  late CardsWidget cardWidgetBuilder;
-  late IconData floatButtonIcon;
-  late Widget currentCardWidget;
-  late CardType activeCard;
+  late GameSettingsController
+      settings; // literally just houses the settings variables
+  late Widget settingsWidget; // settings view
+
+  late CardsWidget cardWidgetBuilder; // instance of CardsWidget
+  late Widget currentCardWidget; // currrent card view
+  late CardType activeCard; // enum of active card type
   List<CardType> cards = [];
   int activeCardIndex = 0;
+
+  late IconData floatButtonIcon;
   String randomCountry = "";
 
   Widget getActiveWidget() {
@@ -82,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    controller = GameSettingsController();
+    settings = GameSettingsController();
     _loadControllerData();
     activeWidget = Widgets.settings;
     floatButtonIcon = Icons.play_arrow_rounded;
@@ -92,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     cardWidgetBuilder = CardsWidget(
         context: context, onCardClick: onCardClick, country: randomCountry);
-    settingsWidget = GameSettingsWidget(controller: controller)
+    settingsWidget = GameSettingsWidget(controller: settings)
         .settingsScaffold(context, widget);
     currentCardWidget = cardWidgetBuilder.question();
     return Scaffold(
@@ -136,10 +139,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   generateCardWidgets() {
-    List.generate(controller.currentNumberOfPlayers, (i) {
+    List.generate(settings.currentNumberOfPlayers, (i) {
       cards.add(CardType.normal);
     });
-    List.generate(controller.currentNumberOfSpies, (i) {
+    List.generate(settings.currentNumberOfSpies, (i) {
       cards.add(CardType.spy);
     });
     cards.shuffle();
@@ -173,15 +176,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _saveControllerData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('numPlayers', controller.currentNumberOfPlayers);
-    prefs.setInt('numSpies', controller.currentNumberOfSpies);
+    prefs.setInt('numPlayers', settings.currentNumberOfPlayers);
+    prefs.setInt('numSpies', settings.currentNumberOfSpies);
     // ...
   }
 
   _loadControllerData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    controller.currentNumberOfPlayers = prefs.getInt('numPlayers') ?? 5;
-    controller.currentNumberOfSpies = prefs.getInt('numSpies') ?? 1;
+    settings.currentNumberOfPlayers = prefs.getInt('numPlayers') ?? 5;
+    settings.currentNumberOfSpies = prefs.getInt('numSpies') ?? 1;
     // ...
   }
 }
