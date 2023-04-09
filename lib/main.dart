@@ -1,7 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spy_game/Country.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
@@ -68,7 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
   late CardType activeCard;
   List<CardType> cards = [];
   int activeCardIndex = 0;
-  final CountryData countryData = CountryData();
   String randomCountry = "";
 
   Widget getActiveWidget() {
@@ -87,9 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadControllerData();
     activeWidget = Widgets.settings;
     floatButtonIcon = Icons.play_arrow_rounded;
-    countryData.load().then(
-          (e) {},
-        );
   }
 
   @override
@@ -118,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   startNewGame() {
     _saveControllerData();
-    randomCountry = countryData.getRandomCountry().name;
+    randomCountry = "panama";
     generateCardWidgets();
     activeWidget = Widgets.cardSelect;
     floatButtonIcon = Icons.loop;
