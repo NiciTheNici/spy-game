@@ -1,10 +1,10 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spy_game/Country.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
+import 'package:spy_game/game_cards/game_instance.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,12 +43,6 @@ enum Widgets {
   cardSelect,
 }
 
-enum CardType {
-  normal,
-  spy,
-  unknown,
-}
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -59,17 +53,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late GameSettingsController controller;
-  late Widget settingsWidget;
-  late CardsWidget cardWidgetBuilder;
-  late Widgets activeWidget;
-  late IconData floatButtonIcon;
-  late Widget currentCardWidget;
-  late CardType activeCard;
-  List<CardType> cards = [];
-  int activeCardIndex = 0;
-  final CountryData countryData = CountryData();
-  String randomCountry = "";
+  late Widgets activeWidget; // enum of active widget
+
+  late GameSettings settings; // literally just houses the settings variables
+  late Widget settingsWidget; // settings view
+
+  GameInstance gameInstance = GameInstance();
+  late CardsWidget cardWidget; // instance of CardsWidget
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -83,22 +73,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    controller = GameSettingsController();
+    settings = GameSettings();
     _loadControllerData();
     activeWidget = Widgets.settings;
-    floatButtonIcon = Icons.play_arrow_rounded;
-    countryData.load().then(
-          (e) {},
-        );
   }
 
   @override
   Widget build(BuildContext context) {
-    cardWidgetBuilder = CardsWidget(
-        context: context, onCardClick: onCardClick, country: randomCountry);
-    settingsWidget = GameSettingsWidget(controller: controller)
+    cardWidget = CardsWidget(
+        context: context,
+        onCardClick: onCardClick,
+        country: gameInstance.randomCountry);
+    settingsWidget = GameSettingsWidget(controller: settings)
         .settingsScaffold(context, widget);
-    currentCardWidget = cardWidgetBuilder.question();
     return Scaffold(
       body: getActiveWidget(),
       floatingActionButton: FloatingActionButton(
@@ -107,85 +94,70 @@ class _MyHomePageState extends State<MyHomePage> {
             if (activeWidget == Widgets.settings) {
               startNewGame();
             } else {
-              backToSettings();
+              returnToSettings();
             }
           });
         },
-        child: Icon(floatButtonIcon),
+        child: getCurrentIcon(),
       ),
     );
   }
 
   startNewGame() {
     _saveControllerData();
-    randomCountry = countryData.getRandomCountry().name;
-    generateCardWidgets();
+    gameInstance.generateCardWidgets(settings);
     activeWidget = Widgets.cardSelect;
-    floatButtonIcon = Icons.loop;
   }
 
-  getCurrentCard() {
-    switch (activeCard) {
-      case CardType.normal:
-        return cardWidgetBuilder.earth();
-      case CardType.spy:
-        return cardWidgetBuilder.userSecret();
-      case CardType.unknown:
-        return cardWidgetBuilder.question();
+  getCurrentIcon() {
+    switch (activeWidget) {
+      case Widgets.settings:
+        return Icons.play_arrow_rounded;
+      case Widgets.cardSelect:
+        return Icons.loop;
     }
   }
 
-  clearCardWidgets() {
-    cards = [];
+  getCurrentCard() {
+    switch (gameInstance.activeCard) {
+      case CardType.normal:
+        return cardWidget.earth();
+      case CardType.spy:
+        return cardWidget.userSecret();
+      case CardType.unknown:
+        return cardWidget.question();
+    }
   }
 
-  generateCardWidgets() {
-    List.generate(controller.currentNumberOfPlayers, (i) {
-      cards.add(CardType.normal);
-    });
-    List.generate(controller.currentNumberOfSpies, (i) {
-      cards.add(CardType.spy);
-    });
-    cards.shuffle();
-    activeCard = CardType.unknown;
-  }
-
-  nextCard() {
-    activeCard = cards[activeCardIndex];
-    activeCardIndex++;
-  }
-
-  backToSettings() {
-    clearCardWidgets();
+  returnToSettings() {
+    gameInstance = GameInstance();
     activeWidget = Widgets.settings;
-    floatButtonIcon = Icons.play_arrow_rounded;
-    activeCardIndex = 0;
   }
 
   onCardClick() {
     setState(() {
-      if (activeCard != CardType.unknown) {
-        if (activeCardIndex == cards.length) {
-          backToSettings();
+      if (gameInstance.activeCard != CardType.unknown) {
+        if (gameInstance.activeCardIndex == gameInstance.cards.length) {
+          returnToSettings();
         }
-        activeCard = CardType.unknown;
+        gameInstance.activeCard = CardType.unknown;
       } else {
-        nextCard();
+        gameInstance.nextCard();
       }
     });
   }
 
   _saveControllerData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('numPlayers', controller.currentNumberOfPlayers);
-    prefs.setInt('numSpies', controller.currentNumberOfSpies);
+    prefs.setInt('numPlayers', settings.currentNumberOfPlayers);
+    prefs.setInt('numSpies', settings.currentNumberOfSpies);
     // ...
   }
 
   _loadControllerData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    controller.currentNumberOfPlayers = prefs.getInt('numPlayers') ?? 5;
-    controller.currentNumberOfSpies = prefs.getInt('numSpies') ?? 1;
+    settings.currentNumberOfPlayers = prefs.getInt('numPlayers') ?? 5;
+    settings.currentNumberOfSpies = prefs.getInt('numSpies') ?? 1;
     // ...
   }
 }
