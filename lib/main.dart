@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
+import 'package:spy_game/game_cards/cards.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,12 +43,6 @@ enum Widgets {
   cardSelect,
 }
 
-enum CardType {
-  normal,
-  spy,
-  unknown,
-}
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -64,11 +59,9 @@ class _MyHomePageState extends State<MyHomePage> {
       settings; // literally just houses the settings variables
   late Widget settingsWidget; // settings view
 
+  Cards cards = Cards();
   late CardsWidget cardWidgetBuilder; // instance of CardsWidget
   late Widget currentCardWidget; // currrent card view
-  late CardType activeCard; // enum of active card type
-  List<CardType> cards = [];
-  int activeCardIndex = 0;
 
   late IconData floatButtonIcon;
   String randomCountry = "";
@@ -118,13 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
   startNewGame() {
     _saveControllerData();
     randomCountry = "panama";
-    generateCardWidgets();
+    cards.generateCardWidgets(settings);
     activeWidget = Widgets.cardSelect;
     floatButtonIcon = Icons.loop;
   }
 
   getCurrentCard() {
-    switch (activeCard) {
+    switch (cards.activeCard) {
       case CardType.normal:
         return cardWidgetBuilder.earth();
       case CardType.spy:
@@ -135,41 +128,25 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   clearCardWidgets() {
-    cards = [];
-  }
-
-  generateCardWidgets() {
-    List.generate(settings.currentNumberOfPlayers, (i) {
-      cards.add(CardType.normal);
-    });
-    List.generate(settings.currentNumberOfSpies, (i) {
-      cards.add(CardType.spy);
-    });
-    cards.shuffle();
-    activeCard = CardType.unknown;
-  }
-
-  nextCard() {
-    activeCard = cards[activeCardIndex];
-    activeCardIndex++;
+    cards.cards = [];
   }
 
   backToSettings() {
     clearCardWidgets();
     activeWidget = Widgets.settings;
     floatButtonIcon = Icons.play_arrow_rounded;
-    activeCardIndex = 0;
+    cards.activeCardIndex = 0;
   }
 
   onCardClick() {
     setState(() {
-      if (activeCard != CardType.unknown) {
-        if (activeCardIndex == cards.length) {
+      if (cards.activeCard != CardType.unknown) {
+        if (cards.activeCardIndex == cards.cards.length) {
           backToSettings();
         }
-        activeCard = CardType.unknown;
+        cards.activeCard = CardType.unknown;
       } else {
-        nextCard();
+        cards.nextCard();
       }
     });
   }
