@@ -59,9 +59,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late GameSettingsController controller;
+  late Widgets activeWidget;
+
   late Widget settingsWidget;
   late CardsWidget cardWidgetBuilder;
-  late Widgets activeWidget;
   late IconData floatButtonIcon;
   late Widget currentCardWidget;
   late CardType activeCard;
