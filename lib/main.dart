@@ -61,8 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
   GameInstance gameInstance = GameInstance();
   late CardsWidget cardWidget; // instance of CardsWidget
 
-  IconData floatButtonIcon = Icons.play_arrow_rounded;
-
   Widget getActiveWidget() {
     switch (activeWidget) {
       case Widgets.settings:
@@ -100,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           });
         },
-        child: Icon(floatButtonIcon),
+        child: getCurrentIcon(),
       ),
     );
   }
@@ -109,7 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
     _saveControllerData();
     gameInstance.generateCardWidgets(settings);
     activeWidget = Widgets.cardSelect;
-    floatButtonIcon = Icons.loop;
+  }
+
+  getCurrentIcon() {
+    switch (activeWidget) {
+      case Widgets.settings:
+        return Icons.play_arrow_rounded;
+      case Widgets.cardSelect:
+        return Icons.loop;
+    }
   }
 
   getCurrentCard() {
@@ -126,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
   backToSettings() {
     gameInstance = GameInstance();
     activeWidget = Widgets.settings;
-    floatButtonIcon = Icons.play_arrow_rounded;
   }
 
   onCardClick() {
