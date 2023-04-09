@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (activeWidget == Widgets.settings) {
               startNewGame();
             } else {
-              backToSettings();
+              returnToSettings();
             }
           });
         },
@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  backToSettings() {
+  returnToSettings() {
     gameInstance = GameInstance();
     activeWidget = Widgets.settings;
   }
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       if (gameInstance.activeCard != CardType.unknown) {
         if (gameInstance.activeCardIndex == gameInstance.cards.length) {
-          backToSettings();
+          returnToSettings();
         }
         gameInstance.activeCard = CardType.unknown;
       } else {
