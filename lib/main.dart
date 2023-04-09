@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spy_game/game_cards/cards_widget.dart';
 import 'package:spy_game/game_settings/game_settings_controller.dart';
 import 'package:spy_game/game_settings/game_settings_widget.dart';
-import 'package:spy_game/game_cards/cards.dart';
+import 'package:spy_game/game_cards/game_instance.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,12 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
       settings; // literally just houses the settings variables
   late Widget settingsWidget; // settings view
 
-  Cards cards = Cards();
+  GameInstance gameInstance = GameInstance();
   late CardsWidget cardWidgetBuilder; // instance of CardsWidget
   late Widget currentCardWidget; // currrent card view
 
   late IconData floatButtonIcon;
-  String randomCountry = "";
 
   Widget getActiveWidget() {
     switch (activeWidget) {
@@ -87,7 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     cardWidgetBuilder = CardsWidget(
-        context: context, onCardClick: onCardClick, country: randomCountry);
+        context: context,
+        onCardClick: onCardClick,
+        country: gameInstance.randomCountry);
     settingsWidget = GameSettingsWidget(controller: settings)
         .settingsScaffold(context, widget);
     currentCardWidget = cardWidgetBuilder.question();
@@ -110,14 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   startNewGame() {
     _saveControllerData();
-    randomCountry = "panama";
-    cards.generateCardWidgets(settings);
+    gameInstance.generateCardWidgets(settings);
     activeWidget = Widgets.cardSelect;
     floatButtonIcon = Icons.loop;
   }
 
   getCurrentCard() {
-    switch (cards.activeCard) {
+    switch (gameInstance.activeCard) {
       case CardType.normal:
         return cardWidgetBuilder.earth();
       case CardType.spy:
@@ -127,26 +127,21 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  clearCardWidgets() {
-    cards.cards = [];
-  }
-
   backToSettings() {
-    clearCardWidgets();
+    gameInstance = GameInstance();
     activeWidget = Widgets.settings;
     floatButtonIcon = Icons.play_arrow_rounded;
-    cards.activeCardIndex = 0;
   }
 
   onCardClick() {
     setState(() {
-      if (cards.activeCard != CardType.unknown) {
-        if (cards.activeCardIndex == cards.cards.length) {
+      if (gameInstance.activeCard != CardType.unknown) {
+        if (gameInstance.activeCardIndex == gameInstance.cards.length) {
           backToSettings();
         }
-        cards.activeCard = CardType.unknown;
+        gameInstance.activeCard = CardType.unknown;
       } else {
-        cards.nextCard();
+        gameInstance.nextCard();
       }
     });
   }

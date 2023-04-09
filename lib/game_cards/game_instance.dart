@@ -1,7 +1,14 @@
-class Cards {
+enum CardType {
+  normal,
+  spy,
+  unknown,
+}
+
+class GameInstance {
   CardType activeCard = CardType.unknown; // enum of active card type
   List<CardType> cards = [];
   int activeCardIndex = 0;
+  String randomCountry = "the dev fucked something up";
 
   generateCardWidgets(settings) {
     List.generate(settings.currentNumberOfPlayers, (i) {
@@ -18,10 +25,4 @@ class Cards {
     activeCard = cards[activeCardIndex];
     activeCardIndex++;
   }
-}
-
-enum CardType {
-  normal,
-  spy,
-  unknown,
 }
