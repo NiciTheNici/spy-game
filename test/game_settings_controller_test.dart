@@ -4,7 +4,7 @@ import 'package:spy_game/game_settings/game_settings_controller.dart';
 void main() {
   group('GameSettingsController', () {
     test('should initialize with default values', () {
-      final controller = GameSettingsController();
+      final controller = GameSettings();
 
       expect(controller.currentNumberOfPlayers, equals(4));
       expect(controller.currentNumberOfSpies, equals(1));
@@ -12,7 +12,7 @@ void main() {
     });
 
     test('should initialize with provided values', () {
-      final controller = GameSettingsController(
+      final controller = GameSettings(
         currentNumberOfPlayers: 6,
         currentNumberOfSpies: 2,
         currentTimeLimit: 120,
@@ -24,7 +24,7 @@ void main() {
     });
 
     test('should update values', () {
-      final controller = GameSettingsController();
+      final controller = GameSettings();
 
       controller.currentNumberOfPlayers = 8;
       controller.currentNumberOfSpies = 3;

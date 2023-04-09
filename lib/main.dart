@@ -55,12 +55,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Widgets activeWidget; // enum of active widget
 
-  late GameSettingsController
-      settings; // literally just houses the settings variables
+  late GameSettings settings; // literally just houses the settings variables
   late Widget settingsWidget; // settings view
 
   GameInstance gameInstance = GameInstance();
-  late CardsWidget cardWidgetBuilder; // instance of CardsWidget
+  late CardsWidget cardWidget; // instance of CardsWidget
 
   IconData floatButtonIcon = Icons.play_arrow_rounded;
 
@@ -76,14 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    settings = GameSettingsController();
+    settings = GameSettings();
     _loadControllerData();
     activeWidget = Widgets.settings;
   }
 
   @override
   Widget build(BuildContext context) {
-    cardWidgetBuilder = CardsWidget(
+    cardWidget = CardsWidget(
         context: context,
         onCardClick: onCardClick,
         country: gameInstance.randomCountry);
@@ -116,11 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
   getCurrentCard() {
     switch (gameInstance.activeCard) {
       case CardType.normal:
-        return cardWidgetBuilder.earth();
+        return cardWidget.earth();
       case CardType.spy:
-        return cardWidgetBuilder.userSecret();
+        return cardWidget.userSecret();
       case CardType.unknown:
-        return cardWidgetBuilder.question();
+        return cardWidget.question();
     }
   }
 

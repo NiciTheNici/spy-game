@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'game_settings_controller.dart';
 
 class GameSettingsWidget {
-  GameSettingsController controller;
+  GameSettings controller;
   GameSettingsWidget({required this.controller});
 
   Widget settingsScaffold(BuildContext context, widget) {
