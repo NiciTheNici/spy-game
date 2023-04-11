@@ -12,9 +12,8 @@ class GameInstance {
   int activeCardIndex = 0;
   late CardsWidget cardWidget;
 
-  GameInstance(context) {
-    cardWidget = CardsWidget(
-        context: context, onCardClick: () {}, country: getRandomCountry());
+  GameInstance(settings) {
+    generateCardWidgets(settings);
   }
 
   generateCardWidgets(settings) {
@@ -35,16 +34,5 @@ class GameInstance {
 
   String getRandomCountry() {
     return "the dev fucked something up";
-  }
-
-  getCurrentCard() {
-    switch (activeCard) {
-      case CardType.normal:
-        return cardWidget.earth();
-      case CardType.spy:
-        return cardWidget.userSecret();
-      case CardType.unknown:
-        return cardWidget.question();
-    }
   }
 }

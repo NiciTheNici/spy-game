@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late GameSettings settings; // literally just houses the settings variables
   late Widget settingsWidget; // settings view
 
-  late GameInstance gameInstance = GameInstance(context);
+  late GameInstance gameInstance;
   late CardsWidget cardWidget; // instance of CardsWidget
 
   Widget getActiveWidget() {
@@ -66,7 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
       case Widgets.settings:
         return settingsWidget;
       case Widgets.cardSelect:
-        return gameInstance.getCurrentCard();
+        return CardsWidget(
+          context: context,
+          gameInstance: gameInstance,
+          country: "jiroland",
+        );
     }
   }
 
@@ -101,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   startNewGame() {
     _saveControllerData();
+    gameInstance = GameInstance(context);
     gameInstance.generateCardWidgets(settings);
     activeWidget = Widgets.cardSelect;
   }
@@ -115,7 +120,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   returnToSettings() {
-    gameInstance = GameInstance(context);
     activeWidget = Widgets.settings;
   }
 

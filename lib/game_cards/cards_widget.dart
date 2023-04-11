@@ -1,28 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CardsWidget {
-  BuildContext context;
-  final VoidCallback onCardClick;
-  final String country;
-  CardsWidget(
-      {required this.context,
-      required this.onCardClick,
-      required this.country});
+import 'game_instance.dart';
 
-  Widget userSecret() {
-    return cardWidget(FontAwesomeIcons.userSecret, onCardClick, "Youre sus");
+class QuestionCard {
+  IconData icon = FontAwesomeIcons.question;
+  String text = "Tap to reveal your role";
+}
+
+class SpyCard implements QuestionCard {
+  @override
+  IconData icon = FontAwesomeIcons.userSecret;
+  @override
+  String text = "You are sus";
+}
+
+class CountryCard implements QuestionCard {
+  @override
+  IconData icon = FontAwesomeIcons.userSecret;
+  @override
+  String text;
+
+  CountryCard({required this.text});
+}
+
+class _CardsWidget extends State<CardsWidget> {
+  String country = "placeholder";
+
+  @override
+  void initState() {
+    super.initState();
+    country = widget.country;
   }
 
-  Widget earth() {
-    return cardWidget(FontAwesomeIcons.earthAmericas, onCardClick, country);
-  }
-
-  Widget question() {
-    return cardWidget(FontAwesomeIcons.question, onCardClick, "Tap to turn");
-  }
-
-  Widget cardWidget(roleIcon, cardTapped, cardText) {
+  @override
+  Widget build(buildContext) {
     return Center(
       child: Card(
         clipBehavior: Clip.hardEdge,
@@ -30,7 +42,7 @@ class CardsWidget {
         child: InkWell(
           splashColor: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
           onTap: () {
-            cardTapped();
+            widget.gameInstance.nextCard();
           },
           child: Row(
             children: [
@@ -46,7 +58,7 @@ class CardsWidget {
                           child: Container(
                             margin: const EdgeInsets.all(5),
                             child: FaIcon(
-                              roleIcon,
+                              activeCard().icon,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
@@ -55,7 +67,7 @@ class CardsWidget {
                       Container(
                           padding: EdgeInsets.only(bottom: 50),
                           child: Text(
-                            cardText,
+                            activeCard().text,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 20),
                           )),
@@ -69,4 +81,29 @@ class CardsWidget {
       ),
     );
   }
+
+  QuestionCard activeCard() {
+    switch (widget.gameInstance.activeCard) {
+      case CardType.normal:
+        return CountryCard(text: widget.country);
+      case CardType.spy:
+        return SpyCard();
+      case CardType.unknown:
+        return QuestionCard();
+    }
+  }
+}
+
+class CardsWidget extends StatefulWidget {
+  final BuildContext context;
+  final GameInstance gameInstance;
+  final String country;
+  const CardsWidget(
+      {super.key,
+      required this.context,
+      required this.gameInstance,
+      required this.country});
+
+  @override
+  State<CardsWidget> createState() => _CardsWidget();
 }
