@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           });
         },
-        child: getCurrentIcon(),
+        child: Icon(getCurrentIcon()),
       ),
     );
   }
