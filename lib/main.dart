@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late GameSettings settings; // literally just houses the settings variables
   late Widget settingsWidget; // settings view
 
-  GameInstance gameInstance = GameInstance();
+  late GameInstance gameInstance = GameInstance(context);
   late CardsWidget cardWidget; // instance of CardsWidget
 
   Widget getActiveWidget() {
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case Widgets.settings:
         return settingsWidget;
       case Widgets.cardSelect:
-        return getCurrentCard();
+        return gameInstance.getCurrentCard();
     }
   }
 
@@ -80,10 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    cardWidget = CardsWidget(
-        context: context,
-        onCardClick: onCardClick,
-        country: gameInstance.randomCountry);
     settingsWidget = GameSettingsWidget(controller: settings)
         .settingsScaffold(context, widget);
     return Scaffold(
@@ -118,19 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  getCurrentCard() {
-    switch (gameInstance.activeCard) {
-      case CardType.normal:
-        return cardWidget.earth();
-      case CardType.spy:
-        return cardWidget.userSecret();
-      case CardType.unknown:
-        return cardWidget.question();
-    }
-  }
-
   returnToSettings() {
-    gameInstance = GameInstance();
+    gameInstance = GameInstance(context);
     activeWidget = Widgets.settings;
   }
 
